@@ -49,8 +49,6 @@ export const scheduledLeaderboardUpdate = functions.onSchedule('every 12 hours',
       console.log('Leaderboard updated successfully.');
 }));
 
-console.log(app, "app");
-
 // Listen for any kind of message. There are different kinds of
 // messages.
 bot.on("message", async (msg) => {
