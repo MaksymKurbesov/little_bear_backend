@@ -16,7 +16,7 @@ const serviceAccount = JSON.parse(
   await readFile(new URL('./serviceAccount.json', import.meta.url))
 );
 
-const app = initializeApp({
+initializeApp({
         credential: admin.credential.cert(serviceAccount),
 });
 
