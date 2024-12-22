@@ -30,15 +30,15 @@ const PORT = 3008;
 expressApp.use(express.json());
 expressApp.use(cors());
 
-expressApp.post("/send_invoice", (req, res) => {
+expressApp.post("/send_spin_invoice", (req, res) => {
   try {
     const { chatId, quantity } = req.body;
-    const paymentToken = "410694247:TEST:0f1622f2-d7d7-4203-9577-c2325ec502c0";
+    const paymentToken = "";
     const payload = quantity;
     const prices = [
       {
         label: "Donation",
-        amount: 1 * quantity, // if you have a decimal price with . instead of ,
+        amount: 70 * quantity, // if you have a decimal price with . instead of ,
       },
     ];
     bot.sendInvoice(
@@ -51,6 +51,36 @@ expressApp.post("/send_invoice", (req, res) => {
       prices,
       {
         photo_url: "https://i.imgur.com/ujYHfXF.png",
+      },
+    ); // send invoice button to user
+
+    res.send("Инвойс отправлен!");
+  } catch (e) {
+    console.log(e, "error");
+  }
+});
+
+expressApp.post("/send_mickey_invoice", (req, res) => {
+  try {
+    const { chatId } = req.body;
+    const paymentToken = "";
+    const payload = "mickey_skin";
+    const prices = [
+      {
+        label: "Donation",
+        amount: 1250, // if you have a decimal price with . instead of ,
+      },
+    ];
+    bot.sendInvoice(
+      chatId,
+      `MAFIA BEAR`,
+      "BUY MAFIA BEAR SKIN",
+      payload,
+      paymentToken,
+      "XTR",
+      prices,
+      {
+        photo_url: "https://i.imgur.com/VdZINOz.png",
       },
     ); // send invoice button to user
 
