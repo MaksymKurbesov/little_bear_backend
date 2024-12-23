@@ -39,7 +39,7 @@ expressApp.post("/send_spin_invoice", (req, res) => {
     const prices = [
       {
         label: "Donation",
-        amount: 1 * quantity, // if you have a decimal price with . instead of ,
+        amount: 70 * quantity, // if you have a decimal price with . instead of ,
       },
     ];
     bot.sendInvoice(
@@ -69,7 +69,7 @@ expressApp.post("/send_mickey_invoice", (req, res) => {
     const prices = [
       {
         label: "Donation",
-        amount: 1, // if you have a decimal price with . instead of ,
+        amount: 1250, // if you have a decimal price with . instead of ,
       },
     ];
     bot.sendInvoice(
