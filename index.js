@@ -188,12 +188,6 @@ bot.on("message", async (msg) => {
           inline_keyboard: [
             [
               {
-                text: "Тест",
-                web_app: { url: "https://ba9c-178-213-3-225.ngrok-free.app" },
-              },
-            ],
-            [
-              {
                 text: "Test dev prod",
                 web_app: { url: "https://littlebear-app.site" },
               },
