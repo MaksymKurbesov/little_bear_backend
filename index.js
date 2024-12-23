@@ -7,6 +7,7 @@ import TelegramBot from "node-telegram-bot-api";
 import express from "express";
 import cors from "cors";
 import updateUserField from "./updateUserField.js";
+import addSkinToUser from "./addSkinToUser.js";
 
 doteEnv.config();
 
@@ -34,7 +35,7 @@ expressApp.post("/send_spin_invoice", (req, res) => {
   try {
     const { chatId, quantity } = req.body;
     const paymentToken = "";
-    const payload = quantity;
+    const payload = `spin_${quantity}`;
     const prices = [
       {
         label: "Donation",
@@ -64,7 +65,7 @@ expressApp.post("/send_mickey_invoice", (req, res) => {
   try {
     const { chatId } = req.body;
     const paymentToken = "";
-    const payload = "mickey_skin";
+    const payload = "skin_mickey";
     const prices = [
       {
         label: "Donation",
@@ -126,17 +127,24 @@ export const scheduledLeaderboardUpdate = functions.onSchedule(
 bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
-
-  console.log(chatId, "chatId");
+  const strChatId = String(chatId);
 
   if (msg.successful_payment) {
-    const quantity = parseInt(msg.successful_payment.invoice_payload);
-    console.log("Платёж успешен:", msg.successful_payment);
-    console.log("quantity", quantity);
+    const invoicePayloadSplitted =
+      msg.successful_payment.invoice_payload.split("_");
+    const invoiceType = invoicePayloadSplitted[0];
 
-    const chatId = msg.chat.id;
+    if (invoiceType === "spin") {
+      const invoiceQuantity = parseInt(invoicePayloadSplitted[1]);
 
-    await updateUserField(String(chatId), quantity);
+      await updateUserField(strChatId, invoiceQuantity);
+    }
+
+    if (invoiceType === "skin") {
+      const invoiceSkin = invoicePayloadSplitted[1];
+
+      await addSkinToUser(strChatId, invoiceSkin);
+    }
 
     // Логика добавления товара пользователю
     bot.sendMessage(chatId, "Purchase successfully completed! 🎉");
